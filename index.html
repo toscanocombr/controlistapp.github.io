@@ -1,1 +1,628 @@
-olar
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controlist - Lead Generation Mobile App</title>
+    <meta name="description" content="Controlist: Control, organize, achieve!">
+    <style>
+        :root {
+            --color-primary: #2CA873;
+            --color-accent: #E74C3C;
+            --color-bg: #EAF0F2;
+            --color-card: #FFFFFF;
+            --color-text: #111111;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--color-text);
+            background: var(--color-bg);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Grid background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(44,168,115,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(44,168,115,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        /* Floating decorative elements */
+        .decoration {
+            position: absolute;
+            background: rgba(44, 168, 115, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .decoration:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 10%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+
+        .decoration:nth-child(2) {
+            width: 40px;
+            height: 40px;
+            top: 60%;
+            right: 5%;
+            animation-delay: 2s;
+        }
+
+        .decoration:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            top: 80%;
+            left: 5%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Main content layout */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 80px 0;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-left {
+            z-index: 20;
+        }
+
+        .hero-badge {
+            background: var(--color-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(44, 168, 115, 0.3);
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 2.4rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+            color: var(--color-primary);
+        }
+
+        .logo-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--color-text) 0%, rgba(17,17,17,0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: rgba(17, 17, 17, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* User avatars section */
+        .user-avatars {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .avatars-group {
+            display: flex;
+            margin-right: 1rem;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid rgba(44, 168, 115, 0.3);
+            margin-right: -10px;
+            object-fit: cover;
+        }
+
+        .play-button {
+            width: 50px;
+            height: 50px;
+            background: rgba(44, 168, 115, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(44, 168, 115, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .play-button:hover {
+            background: rgba(44, 168, 115, 0.3);
+            transform: scale(1.1);
+        }
+
+        .play-button::after {
+            content: '▶';
+            color: var(--color-primary);
+            font-size: 18px;
+            margin-left: 3px;
+        }
+
+        .user-stats {
+            margin-bottom: 2rem;
+        }
+
+        .user-count {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .user-description {
+            color: rgba(17, 17, 17, 0.8);
+            font-size: 1rem;
+        }
+
+        /* Download buttons */
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .store-button {
+            background: var(--color-primary);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--color-primary);
+            border-radius: 12px;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            min-width: 180px;
+        }
+
+        .store-button:hover {
+            background: #249963;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(44, 168, 115, 0.3);
+        }
+
+        .store-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Phone mockup section */
+        .hero-right {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-mockup {
+            position: relative;
+            width: 320px;
+            height: 640px;
+            background: #000;
+            border-radius: 45px;
+            padding: 12px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            z-index: 15;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 35px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 35px;
+        }
+
+        .phone-content {
+            padding: 20px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--color-bg) 0%, #f1f5f9 100%);
+        }
+
+        .phone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-top: 30px;
+        }
+
+        .phone-back {
+            font-size: 18px;
+            color: #64748b;
+        }
+
+        .phone-menu {
+            font-size: 18px;
+            color: #64748b;
+        }
+
+        .balance-card {
+            background: var(--color-card);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+
+        .balance-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .balance-tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .balance-tab.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .balance-tab.inactive {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .chart-section {
+            margin: 20px 0;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .chart-period {
+            color: var(--color-primary);
+            font-size: 0.9rem;
+        }
+
+        .chart-amount {
+            background: #dcfce7;
+            color: #16a34a;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .chart-visual {
+            height: 80px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, #249963 100%);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-visual::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,60 Q50,20 100,30 T200,25 L200,60 Z' fill='rgba(255,255,255,0.3)'/%3E%3C/svg%3E") no-repeat center bottom;
+            background-size: cover;
+        }
+
+        .credit-limit {
+            background: var(--color-primary);
+            color: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .credit-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .credit-circle {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .categories-section {
+            margin-top: 20px;
+        }
+
+        .categories-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        .category-item {
+            text-align: center;
+            padding: 15px 10px;
+            background: var(--color-card);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .category-icon {
+            width: 30px;
+            height: 30px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .category-name {
+            font-size: 0.8rem;
+            color: #1e293b;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .category-amount {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* Background decorative phone */
+        .bg-phone {
+            position: absolute;
+            right: -50px;
+            top: 50px;
+            width: 250px;
+            height: 500px;
+            background: rgba(44, 168, 115, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(44, 168, 115, 0.2);
+            border-radius: 35px;
+            z-index: 5;
+            transform: rotate(15deg);
+        }
+
+        /* Responsive design */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 30px;
+            }
+
+            .hero-content {
+                gap: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .phone-mockup {
+                width: 280px;
+                height: 560px;
+            }
+
+            .download-buttons {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .bg-phone {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .phone-mockup {
+                width: 240px;
+                height: 480px;
+            }
+
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.8rem;
+            }
+
+            .store-button {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="decoration"></div>
+    <div class="decoration"></div>
+    <div class="decoration"></div>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-left">
+                    <div class="hero-badge">
+                        <img src="assets/controlist.png" alt="Controlist" class="logo-icon">
+                        Controlist
+                    </div>
+
+                    <h1 class="hero-title">Controlist: Control, organize, achieve!</h1>
+
+                    <p class="hero-description">
+                        Controlist helps you stay organized, productive, and in control! Whether it's managing tasks, tracking goals, or organizing your workflow, you can achieve more with streamlined efficiency.
+                    </p>
+
+                    <div class="user-stats">
+                        <div class="user-description">Your daily productivity partner, trusted around the world</div>
+                    </div>
+
+                    <div class="download-buttons">
+                        <a href="https://apps.apple.com/us/app/controlist/id6746421769" class="store-button">
+                            <img src="assets/applestore.png" alt="Download on the App Store" style="height: 40px; width: auto;">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-right">
+                    <div class="bg-phone"></div>
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <img src="assets/screenshot.png" alt="Controlist App" class="phone-video" style="width: 100%; height: 100%; object-fit: cover; border-radius: 35px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDHPH0AeFA_eXg_ZVnsIFL4liDmkTT7f3U",
+    authDomain: "superraffle-site.firebaseapp.com",
+    projectId: "superraffle-site",
+    storageBucket: "superraffle-site.firebasestorage.app",
+    messagingSenderId: "597330363226",
+    appId: "1:597330363226:web:9c762289f19fd433996963",
+    measurementId: "G-8GY2SDBWY1"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</body>
+</html>
